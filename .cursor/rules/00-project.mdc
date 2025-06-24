@@ -1,0 +1,106 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# Mu Online Guild Collections
+
+## Project Overview
+
+Built a comprehensive guild collection management system for Mu Online where guild members can share and manage their item collections for trading purposes.
+
+## Key Features Implemented
+
+### 1. Collection Management System
+
+- **Spreadsheet-like interface** displaying all armor sets in a table format
+- **Player selection** with dropdown to choose guild members
+- **Edit/Save toggle** for switching between view and edit modes
+- **Item editing** with toggle buttons for quick option selection
+
+### 2. Armor Sets & Equipment
+
+- **38 armor sets** including Pad, Leather, Dragon, Sacred Fire, Storm Crow, etc.
+- **5 equipment pieces** per set: Helm, Armor, Pants, Gloves, Boots
+- **Set-specific rules** for pieces that don't apply to certain sets:
+
+- Sacred Fire: no boots
+- Storm Crow: no helm
+- Storm Zahard: no boots
+- Thunder Hawk: no helm
+- Hurricane: no helm
+- Piercing Grove: no gloves
+
+### 3. Item Options System
+
+- **7 possible options** per item (max 4 per item):
+
+- MH = Increase maximum life
+- MM = Increase maximum mana
+- SD = Increase maximum SD
+- DD = Damage decrease
+- REF = Reflect damage
+- DSR = Defense success rate (PVM Only)
+- ZEN = Increases zen drop rate
+
+- **Toggle button interface** for quick option selection in edit mode
+- **Abbreviated display** showing options as badges (MH, MM, SD, etc.)
+
+### 4. Advanced Search System
+
+- **Three-filter search** using select dropdowns:
+
+- Set filter (choose specific armor set)
+- Item Part filter (helm, armor, pants, gloves, boots)
+- Option filter (choose specific item option)
+
+- **Flexible combinations** - use any combination of the three filters
+- **Search results table** showing matching items across all players
+- **Click-to-navigate** from search results to player collections
+- **Visual search summary** with color-coded filter badges
+
+### 5. Data Structure & Storage
+
+- **Local storage implementation** (ready for Convex integration)
+- **Nested data structure**: `Player > Set > Piece > Options[]`
+- **Pre-populated players**: Player1 through Player5 for testing
+
+## Technical Implementation
+
+### Components Created
+
+1. **CollectionTable** - Main interface with player selection and table display
+2. **ItemCell** - Individual item editor with toggle buttons
+3. **Game data utilities** - Sets, options, abbreviations, and helper functions
+4. **Local storage hook** - For data persistence
+
+### Key Files
+
+- `app/page.tsx` - Main application entry point
+- `components/collection-table.tsx` - Primary interface component
+- `components/item-cell.tsx` - Item editing component
+- `lib/game-data.ts` - Game constants and utility functions
+- `hooks/use-local-storage.ts` - Local storage management
+
+### UI/UX Features
+
+- **Dark theme** with purple gradient background
+- **Responsive design** with proper mobile support
+- **Color-coded status indicators** for completion tracking
+- **Hover effects** and interactive elements
+- **Error handling** for Select component empty values
+
+## Design Decisions Made
+
+1. **Simplified from tabs to single view** - Removed Guild Overview and Trade Center tabs
+2. **Spreadsheet-like layout** - Matches user's existing Excel format
+3. **Toggle buttons over dropdowns** - Faster option selection with abbreviations
+4. **Advanced search over simple search bar** - More precise filtering capabilities
+
+## Ready for Integration
+
+- **Convex database integration** - Replace localStorage with Convex queries/mutations
+- **Real guild member management** - Replace hardcoded players with dynamic system
+- **Authentication system** - Add user management and permissions
+
+The system provides a complete solution for guild collection management with intuitive editing, comprehensive search, and a familiar spreadsheet-like interface.

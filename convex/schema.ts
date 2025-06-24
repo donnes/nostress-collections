@@ -1,64 +1,53 @@
-import { defineSchema, defineTable } from 'convex/server'
-import { type Infer, v } from 'convex/values'
+import { defineSchema, defineTable } from "convex/server";
+import { type Infer, v } from "convex/values";
 
 const schema = defineSchema({
-  boards: defineTable({
-    id: v.string(),
+  players: defineTable({
     name: v.string(),
-    color: v.string(),
-  }).index('id', ['id']),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("name", ["name"]),
 
-  columns: defineTable({
-    id: v.string(),
-    boardId: v.string(),
+  armorSets: defineTable({
     name: v.string(),
-    order: v.number(),
+    displayName: v.string(),
+    pieces: v.array(v.string()), // ['helm', 'armor', 'pants', 'gloves', 'boots']
+    excludedPieces: v.optional(v.array(v.string())), // pieces that don't apply to this set
+  }).index("name", ["name"]),
+
+  playerItems: defineTable({
+    playerId: v.id("players"),
+    setId: v.id("armorSets"),
+    piece: v.string(), // 'helm', 'armor', 'pants', 'gloves', 'boots'
+    options: v.array(v.string()), // ['MH', 'MM', 'SD', 'DD', 'REF', 'DSR', 'ZEN']
+    createdAt: v.number(),
+    updatedAt: v.number(),
   })
-    .index('id', ['id'])
-    .index('board', ['boardId']),
+    .index("player", ["playerId"])
+    .index("set", ["setId"])
+    .index("player_set_piece", ["playerId", "setId", "piece"]),
+});
 
-  items: defineTable({
-    id: v.string(),
-    title: v.string(),
-    content: v.optional(v.string()),
-    order: v.number(),
-    columnId: v.string(),
-    boardId: v.string(),
-  })
-    .index('id', ['id'])
-    .index('column', ['columnId'])
-    .index('board', ['boardId']),
-})
-export default schema
+export default schema;
 
-const board = schema.tables.boards.validator
-const column = schema.tables.columns.validator
-const item = schema.tables.items.validator
+// Validators
+const player = schema.tables.players.validator;
+const armorSet = schema.tables.armorSets.validator;
+const playerItem = schema.tables.playerItems.validator;
 
-export const updateBoardSchema = v.object({
-  id: board.fields.id,
-  name: v.optional(board.fields.name),
-  color: v.optional(v.string()),
-})
+// Export types
+export type Player = Infer<typeof player>;
+export type ArmorSet = Infer<typeof armorSet>;
+export type PlayerItem = Infer<typeof playerItem>;
 
-export const updateColumnSchema = v.object({
-  id: column.fields.id,
-  boardId: column.fields.boardId,
-  name: v.optional(column.fields.name),
-  order: v.optional(column.fields.order),
-})
+export const updatePlayerItemSchema = v.object({
+  id: v.id("playerItems"),
+  options: playerItem.fields.options,
+});
 
-export const deleteItemSchema = v.object({
-  id: item.fields.id,
-  boardId: item.fields.boardId,
-})
-const { order, id, ...rest } = column.fields
-export const newColumnsSchema = v.object(rest)
-export const deleteColumnSchema = v.object({
-  boardId: column.fields.boardId,
-  id: column.fields.id,
-})
-
-export type Board = Infer<typeof board>
-export type Column = Infer<typeof column>
-export type Item = Infer<typeof item>
+export const upsertPlayerItemSchema = v.object({
+  playerId: v.id("players"),
+  setId: v.id("armorSets"),
+  piece: v.string(),
+  options: playerItem.fields.options,
+});

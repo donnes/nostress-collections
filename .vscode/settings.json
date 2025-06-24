@@ -1,4 +1,10 @@
 {
+  "biome.enabled": false,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.prettier": "explicit"
+  },
   "files.watcherExclude": {
     "**/routeTree.gen.ts": true
   },
