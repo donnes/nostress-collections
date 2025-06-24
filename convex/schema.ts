@@ -20,6 +20,7 @@ const schema = defineSchema({
     setId: v.id("armorSets"),
     piece: v.string(), // 'helm', 'armor', 'pants', 'gloves', 'boots'
     options: v.array(v.string()), // ['MH', 'MM', 'SD', 'DD', 'REF', 'DSR', 'ZEN']
+    isCompleted: v.optional(v.boolean()),
     createdAt: v.number(),
     updatedAt: v.number(),
   })

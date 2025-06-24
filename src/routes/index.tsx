@@ -1,12 +1,14 @@
 import { convexQuery } from "@convex-dev/react-query";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useLocation } from "@tanstack/react-router";
 
 import { api } from "convex/_generated/api";
+import { useQuery } from "convex/react";
 import { AdvancedSearch } from "~/components/advanced-search";
 import { CollectionTable } from "~/components/collection-table";
 import { Loader } from "~/components/loader";
 import { Card, CardContent } from "~/components/ui/card";
+import { loadSearchParams } from "./searchParams";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -14,12 +16,27 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const location = useLocation();
+
+  const searchParams = loadSearchParams(location.search);
+
   const { data: armorSets } = useSuspenseQuery(
     convexQuery(api.guildCollections.getArmorSets, {})
   );
   const { data: players } = useSuspenseQuery(
     convexQuery(api.guildCollections.getPlayers, {})
   );
+
+  const setId = armorSets.find(
+    (set) => set.name === searchParams.searchSet
+  )?._id;
+  const searchResults = useQuery(api.guildCollections.getSearchItems, {
+    setId: setId,
+    piece: searchParams.searchPiece ?? undefined,
+    options: searchParams.searchOptions ?? undefined,
+  });
+
+  console.log(searchResults);
 
   return (
     <div className="container mx-auto p-6">
@@ -31,7 +48,7 @@ function Home() {
           </h1>
         </div>
         <p className="text-muted-foreground">
-          Gerencie sua própria collection ou confirma as collections dos demais
+          Gerencie sua própria collection ou confira as collections dos demais
           membros da guild.
         </p>
       </div>

@@ -1,10 +1,5 @@
 import { XIcon } from "lucide-react";
-import {
-  parseAsArrayOf,
-  parseAsString,
-  parseAsStringEnum,
-  useQueryStates,
-} from "nuqs";
+import { useQueryStates } from "nuqs";
 
 import { Doc } from "convex/_generated/dataModel";
 import { Button } from "~/components/ui/button";
@@ -22,25 +17,14 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { ITEM_OPTIONS } from "~/lib/game-data";
+import { searchParams } from "~/routes/searchParams";
 
 export function AdvancedSearch({
   armorSets,
 }: {
   armorSets: Doc<"armorSets">[];
 }) {
-  const [queryStates, setQueryStates] = useQueryStates({
-    searchSet: parseAsString,
-    searchPiece: parseAsString,
-    searchOptions: parseAsArrayOf(parseAsStringEnum(Object.keys(ITEM_OPTIONS))),
-  });
-
-  function onPerformSearch() {
-    console.log({
-      set: queryStates.searchSet,
-      piece: queryStates.searchPiece,
-      options: queryStates.searchOptions,
-    });
-  }
+  const [queryStates, setQueryStates] = useQueryStates(searchParams);
 
   function onClearSearch() {
     setQueryStates({
@@ -121,7 +105,6 @@ export function AdvancedSearch({
                           });
                         }}
                         variant={isSelected ? "default" : "outline"}
-                        size="sm"
                         disabled={
                           !isSelected &&
                           (queryStates.searchOptions?.length || 0) >= 4

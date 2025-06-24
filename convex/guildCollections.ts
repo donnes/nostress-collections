@@ -85,13 +85,13 @@ export const getPlayerCollection = query({
   },
 });
 
-export const searchItems = query({
+export const getSearchItems = query({
   args: {
     setId: v.optional(v.id("armorSets")),
     piece: v.optional(v.string()),
-    option: v.optional(v.string()),
+    options: v.optional(v.array(v.string())),
   },
-  handler: async (ctx, { setId, piece, option }) => {
+  handler: async (ctx, { setId, piece, options }) => {
     let items: Doc<"playerItems">[];
 
     if (setId) {
@@ -109,9 +109,9 @@ export const searchItems = query({
       filteredItems = filteredItems.filter((item) => item.piece === piece);
     }
 
-    if (option) {
+    if (options) {
       filteredItems = filteredItems.filter((item) =>
-        item.options.includes(option)
+        options.every((option) => item.options.includes(option))
       );
     }
 
