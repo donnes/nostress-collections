@@ -1,0 +1,13 @@
+{
+  "date": "2025-06-24T14:43:06.386Z",
+  "preset": "netlify",
+  "framework": {
+    "name": "nitro",
+    "version": ""
+  },
+  "versions": {
+    "nitro": "2.11.12"
+  },
+  "commands": {},
+  "config": {}
+}
