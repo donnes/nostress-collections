@@ -4,8 +4,6 @@ import { type Infer, v } from "convex/values";
 const schema = defineSchema({
   players: defineTable({
     name: v.string(),
-    createdAt: v.number(),
-    updatedAt: v.number(),
   }).index("name", ["name"]),
 
   armorSets: defineTable({
@@ -21,8 +19,6 @@ const schema = defineSchema({
     piece: v.string(), // 'helm', 'armor', 'pants', 'gloves', 'boots'
     options: v.array(v.string()), // ['MH', 'MM', 'SD', 'DD', 'REF', 'DSR', 'ZEN']
     isCompleted: v.optional(v.boolean()),
-    createdAt: v.number(),
-    updatedAt: v.number(),
   })
     .index("player", ["playerId"])
     .index("set", ["setId"])

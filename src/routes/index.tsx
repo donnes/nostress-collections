@@ -7,6 +7,7 @@ import { useQuery } from "convex/react";
 import { AdvancedSearch } from "~/components/advanced-search";
 import { CollectionTable } from "~/components/collection-table";
 import { Loader } from "~/components/loader";
+import { SearchResultsTable } from "~/components/search-results-table";
 import { Card, CardContent } from "~/components/ui/card";
 import { loadSearchParams } from "./searchParams";
 
@@ -56,7 +57,11 @@ function Home() {
 
         <Card>
           <CardContent className="pt-6">
-            <CollectionTable players={players} />
+            {searchResults && searchResults.length > 0 ? (
+              <SearchResultsTable searchResults={searchResults} />
+            ) : (
+              <CollectionTable players={players} />
+            )}
           </CardContent>
         </Card>
       </div>

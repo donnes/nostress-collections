@@ -7,9 +7,11 @@ import {
 import { ITEM_OPTIONS } from "~/lib/game-data";
 
 export const searchParams = {
-  searchSet: parseAsString,
-  searchPiece: parseAsString,
-  searchOptions: parseAsArrayOf(parseAsStringEnum(Object.keys(ITEM_OPTIONS))),
+  searchSet: parseAsString.withOptions({ clearOnDefault: true }),
+  searchPiece: parseAsString.withOptions({ clearOnDefault: true }),
+  searchOptions: parseAsArrayOf(
+    parseAsStringEnum(Object.keys(ITEM_OPTIONS))
+  ).withOptions({ clearOnDefault: true }),
 };
 
 export const loadSearchParams = createLoader(searchParams);

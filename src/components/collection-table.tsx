@@ -29,7 +29,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { ITEM_OPTIONS, ITEM_PIECES } from "~/lib/game-data";
+import { getItemOptions, ITEM_OPTIONS, ITEM_PIECES } from "~/lib/game-data";
 
 type CollectionTableProps = {
   players: Doc<"players">[];
@@ -108,16 +108,6 @@ export function CollectionTable({ players }: CollectionTableProps) {
     [queryStates.player, playerCollection?.items, upsertPlayerItemMutation]
   );
 
-  const getItemOptions = useCallback(
-    (setId: Id<"armorSets">, piece: string) => {
-      const existingItem = playerCollection?.items?.find(
-        (item) => item.setId === setId && item.piece === piece
-      );
-      return existingItem?.options || [];
-    },
-    [playerCollection?.items]
-  );
-
   return (
     <div className="space-y-4">
       <div className="space-y-4">
@@ -180,7 +170,11 @@ export function CollectionTable({ players }: CollectionTableProps) {
             <TableRow key={set._id}>
               <TableCell>{set.displayName}</TableCell>
               {Object.keys(ITEM_PIECES).map((piece) => {
-                const itemOptions = getItemOptions(set._id, piece);
+                const itemOptions = getItemOptions(
+                  set._id,
+                  piece,
+                  playerCollection?.items
+                );
 
                 if (set.excludedPieces?.includes(piece)) {
                   return (
@@ -233,15 +227,15 @@ export function CollectionTable({ players }: CollectionTableProps) {
                   <TableCell key={`${set._id}-${piece}`}>
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-1">
                       {itemOptions.map((option) => {
+                        const label =
+                          ITEM_OPTIONS[option as keyof typeof ITEM_OPTIONS];
                         return (
-                          <Button
-                            key={`${set._id}-${piece}-${option}`}
-                            onClick={() => {}}
-                            size="sm"
-                            disabled
-                          >
-                            {option}
-                          </Button>
+                          <Tooltip key={`${set._id}-${piece}-${option}`}>
+                            <TooltipTrigger asChild>
+                              <Button size="sm">{option}</Button>
+                            </TooltipTrigger>
+                            <TooltipContent>{label}</TooltipContent>
+                          </Tooltip>
                         );
                       })}
                     </div>

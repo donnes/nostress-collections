@@ -83,6 +83,10 @@ export const getSearchItems = query({
     options: v.optional(v.array(v.string())),
   },
   handler: async (ctx, { setId, piece, options }) => {
+    if (!setId && !piece && !options) {
+      return [];
+    }
+
     let items: Doc<"playerItems">[];
 
     if (setId) {
@@ -129,8 +133,6 @@ export const getSearchItems = query({
 export const upsertPlayerItem = mutation({
   args: upsertPlayerItemSchema,
   handler: async (ctx, { playerId, setId, piece, options }) => {
-    const now = Date.now();
-
     // Check if item already exists
     const existingItem = await ctx.db
       .query("playerItems")
@@ -143,7 +145,6 @@ export const upsertPlayerItem = mutation({
       // Update existing item
       return await ctx.db.patch(existingItem._id, {
         options,
-        updatedAt: now,
       });
     } else {
       // Create new item
@@ -152,8 +153,6 @@ export const upsertPlayerItem = mutation({
         setId,
         piece,
         options,
-        createdAt: now,
-        updatedAt: now,
       });
     }
   },
