@@ -36,8 +36,6 @@ function Home() {
     options: searchParams.searchOptions ?? undefined,
   });
 
-  console.log(searchResults);
-
   return (
     <div className="container mx-auto p-6">
       <div className="mb-8 space-y-2 text-center">

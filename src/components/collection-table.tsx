@@ -131,10 +131,10 @@ export function CollectionTable({ players }: CollectionTableProps) {
                 value={queryStates.player}
                 onValueChange={(value) => setQueryStates({ player: value })}
               >
-                <SelectTrigger className="bg-background border-border text-foreground w-64">
+                <SelectTrigger className="w-64">
                   <SelectValue placeholder="Choose a player" />
                 </SelectTrigger>
-                <SelectContent className="bg-popover border-border">
+                <SelectContent className="max-h-80">
                   {players.map((player) => (
                     <SelectItem key={player._id} value={player._id}>
                       {player.name}

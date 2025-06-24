@@ -49,10 +49,10 @@ export function AdvancedSearch({
               value={queryStates.searchSet || ""}
               onValueChange={(value) => setQueryStates({ searchSet: value })}
             >
-              <SelectTrigger className="bg-background border-border text-foreground">
+              <SelectTrigger>
                 <SelectValue placeholder="Todos" />
               </SelectTrigger>
-              <SelectContent className="bg-popover border-border max-h-60">
+              <SelectContent className="max-h-60">
                 {armorSets.map((set) => (
                   <SelectItem key={set._id} value={set.name}>
                     {set.displayName}
@@ -70,10 +70,10 @@ export function AdvancedSearch({
               value={queryStates.searchPiece || ""}
               onValueChange={(value) => setQueryStates({ searchPiece: value })}
             >
-              <SelectTrigger className="bg-background border-border text-foreground">
+              <SelectTrigger>
                 <SelectValue placeholder="Qualquer" />
               </SelectTrigger>
-              <SelectContent className="bg-popover border-border">
+              <SelectContent className="max-h-60">
                 <SelectItem value="helm">Helm</SelectItem>
                 <SelectItem value="armor">Armor</SelectItem>
                 <SelectItem value="pants">Pants</SelectItem>

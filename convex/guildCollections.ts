@@ -3,18 +3,9 @@ import type { Doc } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 import { upsertPlayerItemSchema } from "./schema";
 
-// ===== PLAYERS =====
-
 export const getPlayers = query({
   handler: async (ctx) => {
     return await ctx.db.query("players").collect();
-  },
-});
-
-export const getPlayer = query({
-  args: { id: v.id("players") },
-  handler: async (ctx, { id }) => {
-    return await ctx.db.get(id);
   },
 });
 
