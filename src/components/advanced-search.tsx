@@ -50,7 +50,7 @@ export function AdvancedSearch({
               onValueChange={(value) => setQueryStates({ searchSet: value })}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Todos" />
+                <SelectValue placeholder="Nenhum" />
               </SelectTrigger>
               <SelectContent className="max-h-60">
                 {armorSets.map((set) => (
@@ -71,7 +71,7 @@ export function AdvancedSearch({
               onValueChange={(value) => setQueryStates({ searchPiece: value })}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Qualquer" />
+                <SelectValue placeholder="Nenhum" />
               </SelectTrigger>
               <SelectContent className="max-h-60">
                 <SelectItem value="helm">Helm</SelectItem>
