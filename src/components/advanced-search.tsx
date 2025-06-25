@@ -40,7 +40,7 @@ export function AdvancedSearch({
         <CardTitle>Busca avançada</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] gap-4">
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">
               Set
@@ -120,7 +120,7 @@ export function AdvancedSearch({
             </div>
           </div>
 
-          <div className="flex items-end md:justify-end gap-2">
+          <div className="flex items-end justify-end">
             <Button
               onClick={onClearSearch}
               variant="outline"

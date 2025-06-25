@@ -30,6 +30,7 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { getItemOptions, ITEM_OPTIONS, ITEM_PIECES } from "~/lib/game-data";
+import { cn } from "~/lib/utils";
 
 type CollectionTableProps = {
   players: Doc<"players">[];
@@ -166,49 +167,83 @@ export function CollectionTable({ players }: CollectionTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {playerCollection?.armorSets.map((set) => (
-            <TableRow key={set._id}>
-              <TableCell>{set.displayName}</TableCell>
-              {Object.keys(ITEM_PIECES).map((piece) => {
-                const itemOptions = getItemOptions(
-                  set._id,
-                  piece,
-                  playerCollection?.items
-                );
+          {playerCollection?.armorSets.map((set) => {
+            const isSetCompleted = playerCollection?.items.filter(
+              (item) => item.setId === set._id && item.isCompleted
+            );
 
-                if (set.excludedPieces?.includes(piece)) {
-                  return (
-                    <TableCell
-                      key={`${set._id}-${piece}`}
-                      className="bg-[repeating-linear-gradient(45deg,#dc2626,#dc2626_10px,#450a0a_10px,#450a0a_20px)]"
-                    >
-                      &nbsp;
-                    </TableCell>
+            return (
+              <TableRow
+                key={`${set._id}-${queryStates.player}`}
+                className={cn(isSetCompleted && "bg-emerald-500/10")}
+              >
+                <TableCell>{set.displayName}</TableCell>
+                {Object.keys(ITEM_PIECES).map((piece) => {
+                  const pieceKey = `${set._id}-${piece}-${queryStates.player}`;
+
+                  const itemOptions = getItemOptions(
+                    set._id,
+                    piece,
+                    playerCollection?.items
                   );
-                }
 
-                if (queryStates.editing) {
+                  if (set.excludedPieces?.includes(piece)) {
+                    return (
+                      <TableCell
+                        key={`${set._id}-${piece}-${queryStates.player}`}
+                        className="bg-[repeating-linear-gradient(45deg,#dc2626,#dc2626_10px,#450a0a_10px,#450a0a_20px)]"
+                      >
+                        &nbsp;
+                      </TableCell>
+                    );
+                  }
+
+                  if (queryStates.editing) {
+                    return (
+                      <TableCell key={pieceKey}>
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-1">
+                          {Object.entries(ITEM_OPTIONS).map(([key, label]) => {
+                            const isSelected = itemOptions.includes(key);
+
+                            return (
+                              <Tooltip key={key}>
+                                <TooltipTrigger asChild>
+                                  <Button
+                                    onClick={() =>
+                                      handleOptionToggle(set._id, piece, key)
+                                    }
+                                    variant={isSelected ? "default" : "outline"}
+                                    size="sm"
+                                    disabled={
+                                      !isSelected && itemOptions.length >= 4
+                                    }
+                                  >
+                                    {key}
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>{label}</TooltipContent>
+                              </Tooltip>
+                            );
+                          })}
+                        </div>
+                      </TableCell>
+                    );
+                  }
+
+                  if (itemOptions.length === 0) {
+                    return <TableCell key={pieceKey}>N/A</TableCell>;
+                  }
+
                   return (
-                    <TableCell key={`${set._id}-${piece}`}>
+                    <TableCell key={pieceKey}>
                       <div className="grid grid-cols-2 lg:grid-cols-4 gap-1">
-                        {Object.entries(ITEM_OPTIONS).map(([key, label]) => {
-                          const isSelected = itemOptions.includes(key);
-
+                        {itemOptions.map((option) => {
+                          const label =
+                            ITEM_OPTIONS[option as keyof typeof ITEM_OPTIONS];
                           return (
-                            <Tooltip key={key}>
+                            <Tooltip key={`${set._id}-${piece}-${option}`}>
                               <TooltipTrigger asChild>
-                                <Button
-                                  onClick={() =>
-                                    handleOptionToggle(set._id, piece, key)
-                                  }
-                                  variant={isSelected ? "default" : "outline"}
-                                  size="sm"
-                                  disabled={
-                                    !isSelected && itemOptions.length >= 4
-                                  }
-                                >
-                                  {key}
-                                </Button>
+                                <Button size="sm">{option}</Button>
                               </TooltipTrigger>
                               <TooltipContent>{label}</TooltipContent>
                             </Tooltip>
@@ -217,33 +252,10 @@ export function CollectionTable({ players }: CollectionTableProps) {
                       </div>
                     </TableCell>
                   );
-                }
-
-                if (itemOptions.length === 0) {
-                  return <TableCell key={`${set._id}-${piece}`}>N/A</TableCell>;
-                }
-
-                return (
-                  <TableCell key={`${set._id}-${piece}`}>
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-1">
-                      {itemOptions.map((option) => {
-                        const label =
-                          ITEM_OPTIONS[option as keyof typeof ITEM_OPTIONS];
-                        return (
-                          <Tooltip key={`${set._id}-${piece}-${option}`}>
-                            <TooltipTrigger asChild>
-                              <Button size="sm">{option}</Button>
-                            </TooltipTrigger>
-                            <TooltipContent>{label}</TooltipContent>
-                          </Tooltip>
-                        );
-                      })}
-                    </div>
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          ))}
+                })}
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </div>
