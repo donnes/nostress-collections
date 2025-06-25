@@ -1,13 +1,13 @@
 "use client";
 
 import { useMutation, useQuery } from "convex/react";
-import { CheckIcon, EditIcon } from "lucide-react";
+import { CheckIcon, EditIcon, StarIcon, StarOffIcon } from "lucide-react";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
 import { useCallback } from "react";
+import { toast } from "sonner";
 
 import { api } from "convex/_generated/api";
 import { Doc, Id } from "convex/_generated/dataModel";
-import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import {
   Select,
@@ -30,7 +30,6 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { getItemOptions, ITEM_OPTIONS, ITEM_PIECES } from "~/lib/game-data";
-import { cn } from "~/lib/utils";
 
 type CollectionTableProps = {
   players: Doc<"players">[];
@@ -77,6 +76,35 @@ export function CollectionTable({ players }: CollectionTableProps) {
     toast.success("Item atualizado");
   });
 
+  const toggleItemCompletionMutation = useMutation(
+    api.guildCollections.toggleItemCompletion
+  ).withOptimisticUpdate((localStore, args) => {
+    const { playerId, setId, piece } = args;
+
+    // Update the player collection query with the new options
+    const currentCollection = localStore.getQuery(
+      api.guildCollections.getPlayerCollection,
+      { playerId }
+    );
+
+    if (currentCollection) {
+      const updatedItems = currentCollection.items.map((item) =>
+        item.setId === setId && item.piece === piece
+          ? { ...item, isCompleted: !item.isCompleted }
+          : item
+      );
+
+      localStore.setQuery(
+        api.guildCollections.getPlayerCollection,
+        { playerId },
+        {
+          ...currentCollection,
+          items: updatedItems,
+        }
+      );
+    }
+  });
+
   const handleOptionToggle = useCallback(
     async (setId: Id<"armorSets">, piece: string, option: string) => {
       // Find existing item to get current options
@@ -107,6 +135,17 @@ export function CollectionTable({ players }: CollectionTableProps) {
       });
     },
     [queryStates.player, playerCollection?.items, upsertPlayerItemMutation]
+  );
+
+  const handleToggleItemCompletion = useCallback(
+    async (setId: Id<"armorSets">, piece: string) => {
+      await toggleItemCompletionMutation({
+        playerId: queryStates.player as Id<"players">,
+        setId,
+        piece,
+      });
+    },
+    [queryStates.player, toggleItemCompletionMutation]
   );
 
   return (
@@ -168,17 +207,19 @@ export function CollectionTable({ players }: CollectionTableProps) {
         </TableHeader>
         <TableBody>
           {playerCollection?.armorSets.map((set) => {
-            const isSetCompleted = playerCollection?.items.filter(
-              (item) => item.setId === set._id && item.isCompleted
-            );
+            const isSetCompleted =
+              playerCollection?.items.filter(
+                (item) => item.setId === set._id && item.isCompleted
+              ).length === Object.keys(ITEM_PIECES).length;
 
             return (
-              <TableRow
-                key={`${set._id}-${queryStates.player}`}
-                className={cn(isSetCompleted && "bg-emerald-500/10")}
-              >
+              <TableRow key={`${set._id}-${queryStates.player}`}>
                 <TableCell>{set.displayName}</TableCell>
                 {Object.keys(ITEM_PIECES).map((piece) => {
+                  const isCompleted = playerCollection?.items.find(
+                    (item) => item.setId === set._id && item.piece === piece
+                  )?.isCompleted;
+
                   const pieceKey = `${set._id}-${piece}-${queryStates.player}`;
 
                   const itemOptions = getItemOptions(
@@ -191,17 +232,21 @@ export function CollectionTable({ players }: CollectionTableProps) {
                     return (
                       <TableCell
                         key={`${set._id}-${piece}-${queryStates.player}`}
-                        className="bg-[repeating-linear-gradient(45deg,#dc2626,#dc2626_10px,#450a0a_10px,#450a0a_20px)]"
+                        className="stripe-forbidden"
                       >
                         &nbsp;
                       </TableCell>
                     );
                   }
 
+                  if (!queryStates.editing && isCompleted) {
+                    return <TableCell key={pieceKey}>✅</TableCell>;
+                  }
+
                   if (queryStates.editing) {
                     return (
                       <TableCell key={pieceKey}>
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-1">
+                        <div className="flex flex-wrap items-center gap-1">
                           {Object.entries(ITEM_OPTIONS).map(([key, label]) => {
                             const isSelected = itemOptions.includes(key);
 
@@ -213,9 +258,11 @@ export function CollectionTable({ players }: CollectionTableProps) {
                                       handleOptionToggle(set._id, piece, key)
                                     }
                                     variant={isSelected ? "default" : "outline"}
-                                    size="sm"
+                                    size="icon"
                                     disabled={
-                                      !isSelected && itemOptions.length >= 4
+                                      (!isSelected &&
+                                        itemOptions.length >= 4) ||
+                                      isCompleted
                                     }
                                   >
                                     {key}
@@ -225,6 +272,29 @@ export function CollectionTable({ players }: CollectionTableProps) {
                               </Tooltip>
                             );
                           })}
+
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                onClick={() =>
+                                  handleToggleItemCompletion(set._id, piece)
+                                }
+                                variant="outline"
+                                size="icon"
+                              >
+                                {!isCompleted ? (
+                                  <StarIcon className="!size-5" />
+                                ) : (
+                                  <StarOffIcon className="!size-5" />
+                                )}
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              {isCompleted
+                                ? "Desmarcar item"
+                                : "Marcar item como obtido"}
+                            </TooltipContent>
+                          </Tooltip>
                         </div>
                       </TableCell>
                     );
@@ -243,7 +313,7 @@ export function CollectionTable({ players }: CollectionTableProps) {
                           return (
                             <Tooltip key={`${set._id}-${piece}-${option}`}>
                               <TooltipTrigger asChild>
-                                <Button size="sm">{option}</Button>
+                                <Button size="icon">{option}</Button>
                               </TooltipTrigger>
                               <TooltipContent>{label}</TooltipContent>
                             </Tooltip>

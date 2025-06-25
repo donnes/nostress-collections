@@ -1,7 +1,7 @@
 import { v } from "convex/values";
 import type { Doc } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
-import { upsertPlayerItemSchema } from "./schema";
+import { toggleItemCompletionSchema, upsertPlayerItemSchema } from "./schema";
 
 export const getPlayers = query({
   handler: async (ctx) => {
@@ -153,6 +153,35 @@ export const upsertPlayerItem = mutation({
         setId,
         piece,
         options,
+      });
+    }
+  },
+});
+
+export const toggleItemCompletion = mutation({
+  args: toggleItemCompletionSchema,
+  handler: async (ctx, { playerId, setId, piece }) => {
+    // Check if item already exists
+    const existingItem = await ctx.db
+      .query("playerItems")
+      .withIndex("player_set_piece", (q) =>
+        q.eq("playerId", playerId).eq("setId", setId).eq("piece", piece)
+      )
+      .first();
+
+    if (existingItem) {
+      // Update existing item with completion status
+      return await ctx.db.patch(existingItem._id, {
+        isCompleted: !existingItem.isCompleted,
+      });
+    } else {
+      // Create new item with completion status
+      return await ctx.db.insert("playerItems", {
+        playerId,
+        setId,
+        piece,
+        options: [],
+        isCompleted: true,
       });
     }
   },

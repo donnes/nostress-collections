@@ -48,3 +48,9 @@ export const upsertPlayerItemSchema = v.object({
   piece: v.string(),
   options: playerItem.fields.options,
 });
+
+export const toggleItemCompletionSchema = v.object({
+  playerId: v.id("players"),
+  setId: v.id("armorSets"),
+  piece: v.string(),
+});
