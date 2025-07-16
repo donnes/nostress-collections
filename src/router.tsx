@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { createRouter as createTanStackRouter } from "@tanstack/react-router";
 import { routerWithQueryClient } from "@tanstack/react-router-with-query";
-import { ConvexProvider } from "convex/react";
+import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { toast } from "sonner";
 import { DefaultCatchBoundary } from "./components/default-catch-boundary";
 import { routeTree } from "./routeTree.gen";
@@ -20,7 +20,8 @@ export function createRouter() {
   if (!CONVEX_URL) {
     console.error("missing envar CONVEX_URL");
   }
-  const convexQueryClient = new ConvexQueryClient(CONVEX_URL);
+  const convex = new ConvexReactClient(CONVEX_URL);
+  const convexQueryClient = new ConvexQueryClient(convex);
 
   const queryClient: QueryClient = new QueryClient({
     defaultOptions: {
@@ -42,7 +43,7 @@ export function createRouter() {
       routeTree,
       defaultPreload: "intent",
       defaultErrorComponent: DefaultCatchBoundary,
-      context: { queryClient },
+      context: { queryClient, convexQueryClient, convexClient: convex },
       Wrap: ({ children }) => (
         <ConvexProvider client={convexQueryClient.convexClient}>
           {children}
