@@ -11,6 +11,7 @@ const schema = defineSchema({
     displayName: v.string(),
     pieces: v.array(v.string()), // ['helm', 'armor', 'pants', 'gloves', 'boots']
     excludedPieces: v.optional(v.array(v.string())), // pieces that don't apply to this set
+    stats: v.optional(v.string()),
   }).index("name", ["name"]),
 
   playerItems: defineTable({

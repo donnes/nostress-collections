@@ -214,7 +214,14 @@ export function CollectionTable({ players }: CollectionTableProps) {
 
             return (
               <TableRow key={`${set._id}-${queryStates.player}`}>
-                <TableCell>{set.displayName}</TableCell>
+                <TableCell>
+                  <div className="flex flex-col gap-1">
+                    <span>{set.displayName}</span>
+                    {set.stats && (
+                      <span className="text-xs text-blue-400">{set.stats}</span>
+                    )}
+                  </div>
+                </TableCell>
                 {Object.keys(ITEM_PIECES).map((piece) => {
                   const isCompleted = playerCollection?.items.find(
                     (item) => item.setId === set._id && item.piece === piece

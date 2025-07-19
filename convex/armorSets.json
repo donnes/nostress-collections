@@ -2,192 +2,229 @@
   {
     "name": "pad",
     "displayName": "Pad",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Max Life 1000"
   },
   {
     "name": "leather",
     "displayName": "Leather",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Max Life 1000"
   },
   {
     "name": "vine",
     "displayName": "Vine",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Atk Speed 15"
   },
   {
     "name": "bronze",
     "displayName": "Bronze",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Atk Speed 20"
   },
   {
     "name": "silk",
     "displayName": "Silk",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases DMG 2%"
   },
   {
     "name": "bone",
     "displayName": "Bone",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Max Defense 2%"
   },
   {
     "name": "scale",
     "displayName": "Scale",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Max Life 1500"
   },
   {
     "name": "wind",
     "displayName": "Wind",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases SD 2%"
   },
   {
     "name": "violent_wind",
     "displayName": "Violent Wind",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "EXE DMG Resistence 3%"
   },
   {
     "name": "sphinx",
     "displayName": "Sphinx",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Max Life 1500"
   },
   {
     "name": "brass",
     "displayName": "Brass",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Atk Speed 25"
   },
   {
     "name": "spirit",
     "displayName": "Spirit",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Max Life 1500"
   },
   {
     "name": "plate",
     "displayName": "Plate",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "EXE DMG Rate 2%"
   },
   {
     "name": "legendary",
     "displayName": "Legendary",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Max Defense 5%"
   },
   {
     "name": "red_winged",
     "displayName": "Red Winged",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "EXE DMG Resistence 5%"
   },
   {
     "name": "guardian",
     "displayName": "Guardian",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Critical DMG Resistence 4%"
   },
   {
     "name": "dragon",
     "displayName": "Dragon",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Max Life 1500"
   },
   {
     "name": "light_plate",
     "displayName": "Light Plate",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Atk Speed 30"
   },
   {
     "name": "sacred_fire",
     "displayName": "Sacred Fire",
     "pieces": ["helm", "armor", "pants", "gloves"],
-    "excludedPieces": ["boots"]
+    "excludedPieces": ["boots"],
+    "stats": "Reflect DMG 2%"
   },
   {
     "name": "ancient",
     "displayName": "Ancient",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Max Defense 5%"
   },
   {
     "name": "adamantine",
     "displayName": "Adamantine",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Critical DMG Resistence 5%"
   },
   {
     "name": "storm_crow",
     "displayName": "Storm Crow",
     "pieces": ["armor", "pants", "gloves", "boots"],
-    "excludedPieces": ["helm"]
+    "excludedPieces": ["helm"],
+    "stats": "Increases Max Life 1500"
   },
   {
     "name": "storm_zahard",
     "displayName": "Storm Zahard",
     "pieces": ["helm", "armor", "pants", "gloves"],
-    "excludedPieces": ["boots"]
+    "excludedPieces": ["boots"],
+    "stats": "Increases SD 6%"
   },
   {
     "name": "black_dragon",
     "displayName": "Black Dragon",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "EXE DMG Rate 5%"
   },
   {
     "name": "demonic",
     "displayName": "Demonic",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "DD 3%"
   },
   {
     "name": "grand_soul",
     "displayName": "Grand Soul",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Critical DMG Resistence 6%"
   },
   {
     "name": "holy_spirit",
     "displayName": "Holy Spirit",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Max Life 1500"
   },
   {
     "name": "dark_steel",
     "displayName": "Dark Steel",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Atk Speed 30"
   },
   {
     "name": "dark_phoenix",
     "displayName": "Dark Pheonix",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Reflect DMG 2%"
   },
   {
     "name": "thunder_hawk",
     "displayName": "Thunder Hawk",
     "pieces": ["armor", "pants", "gloves", "boots"],
-    "excludedPieces": ["helm"]
+    "excludedPieces": ["helm"],
+    "stats": "Increases Max Defense 5%"
   },
   {
     "name": "great_dragon",
     "displayName": "Great Dragon",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Critical DMG Resistence 5%"
   },
   {
     "name": "dark_soul",
     "displayName": "Dark Soul",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Increases Max Life 1500"
   },
   {
     "name": "hurricane",
     "displayName": "Hurricane",
     "pieces": ["armor", "pants", "gloves", "boots"],
-    "excludedPieces": ["helm"]
+    "excludedPieces": ["helm"],
+    "stats": "Increases SD 6%"
   },
   {
     "name": "red_spirit",
     "displayName": "Red Spirit",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "EXE DMG Rate 5%"
   },
   {
     "name": "dark_master",
     "displayName": "Dark Master",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "DD 3%"
   },
   {
     "name": "storm_blitz",
     "displayName": "Storm Blitz",
-    "pieces": ["helm", "armor", "pants", "gloves", "boots"]
+    "pieces": ["helm", "armor", "pants", "gloves", "boots"],
+    "stats": "Critical DMG Resistence 6%"
   },
   {
     "name": "piercing_grove",
     "displayName": "Piercing Grove",
     "pieces": ["helm", "armor", "pants", "boots"],
-    "excludedPieces": ["gloves"]
+    "excludedPieces": ["gloves"],
+    "stats": "Increases Max Life 1500"
   }
 ]
