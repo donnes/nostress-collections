@@ -3,11 +3,12 @@
 import { useMutation, useQuery } from "convex/react";
 import { CheckIcon, EditIcon, StarIcon, StarOffIcon } from "lucide-react";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
 
 import { api } from "convex/_generated/api";
 import { Doc, Id } from "convex/_generated/dataModel";
+import { StatsFilter } from "~/components/stats-filter";
 import { Button } from "~/components/ui/button";
 import {
   Select,
@@ -39,6 +40,7 @@ export function CollectionTable({ players }: CollectionTableProps) {
   const [queryStates, setQueryStates] = useQueryStates({
     player: parseAsString.withDefault(players[0]._id),
     editing: parseAsBoolean.withDefault(false),
+    statsFilter: parseAsString.withDefault("all"),
   });
 
   const playerCollection = useQuery(api.guildCollections.getPlayerCollection, {
@@ -148,6 +150,18 @@ export function CollectionTable({ players }: CollectionTableProps) {
     [queryStates.player, toggleItemCompletionMutation]
   );
 
+  // Filter armor sets by stats
+  const filteredArmorSets = useMemo(() => {
+    if (!playerCollection?.armorSets || queryStates.statsFilter === "all") {
+      return playerCollection?.armorSets || [];
+    }
+
+    return playerCollection.armorSets.filter((set) => {
+      if (!set.stats) return false;
+      return set.stats.includes(queryStates.statsFilter);
+    });
+  }, [playerCollection?.armorSets, queryStates.statsFilter]);
+
   return (
     <div className="space-y-4">
       <div className="space-y-4">
@@ -173,6 +187,8 @@ export function CollectionTable({ players }: CollectionTableProps) {
                 </SelectContent>
               </Select>
             </div>
+
+            <StatsFilter />
           </div>
 
           <Button
@@ -194,6 +210,18 @@ export function CollectionTable({ players }: CollectionTableProps) {
         </div>
       </div>
 
+      {queryStates.statsFilter && queryStates.statsFilter !== "all" && (
+        <div className="text-sm text-muted-foreground flex items-center gap-2">
+          <span>
+            Showing {filteredArmorSets.length} of{" "}
+            {playerCollection?.armorSets.length || 0} armor sets
+          </span>
+          <span className="text-blue-400">
+            (filtered by: {queryStates.statsFilter})
+          </span>
+        </div>
+      )}
+
       <Table className="border table-fixed">
         <TableHeader className="bg-muted">
           <TableRow>
@@ -206,9 +234,9 @@ export function CollectionTable({ players }: CollectionTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {playerCollection?.armorSets.map((set) => {
+          {filteredArmorSets.map((set) => {
             const isSetCompleted =
-              playerCollection?.items.filter(
+              (playerCollection?.items || []).filter(
                 (item) => item.setId === set._id && item.isCompleted
               ).length === Object.keys(ITEM_PIECES).length;
 
@@ -232,7 +260,7 @@ export function CollectionTable({ players }: CollectionTableProps) {
                   const itemOptions = getItemOptions(
                     set._id,
                     piece,
-                    playerCollection?.items
+                    playerCollection?.items || []
                   );
 
                   if (set.excludedPieces?.includes(piece)) {
