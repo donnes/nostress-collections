@@ -1,14 +1,12 @@
 /// <reference types="vite/client" />
 
 import type { QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools/production";
 import {
   HeadContent,
   Outlet,
   Scripts,
   createRootRouteWithContext,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import type * as React from "react";
 import { Toaster } from "sonner";
@@ -89,8 +87,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           </NuqsAdapter>
         </div>
         <Toaster />
-        <ReactQueryDevtools />
-        <TanStackRouterDevtools position="bottom-right" />
         <Scripts />
       </body>
     </html>
