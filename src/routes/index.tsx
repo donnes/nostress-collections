@@ -41,7 +41,7 @@ function Home() {
     <div className="container mx-auto p-6">
       <div className="mb-8 space-y-2 text-center">
         <div className="flex items-center space-x-4 justify-center">
-          <img src="/logo.png" alt="NoStress" className="w-10 h-10" />
+          <img src="/logo-cross.png" alt="DominiuM" className="w-10 h-10" />
           <h1 className="text-4xl font-bold text-foreground">
             DominiuM - Collections
           </h1>
