@@ -29,7 +29,7 @@ export const Route = createRootRouteWithContext<{
         content: "width=device-width, initial-scale=1",
       },
       ...seo({
-        title: "NoStress - Players Collections",
+        title: "DominiuM - Players Collections",
       }),
     ],
     links: [
